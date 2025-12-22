@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoRent - Avtomobil Ijarasi</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ============= HEADER (Flexbox) ============= */
+    header {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      padding: 30px 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      border-bottom: 5px solid #ffd700;
+      
+      /* Flexbox */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    header img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 5px solid #ffd700;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    header img:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    header h1 {
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+      font-size: 2.5rem;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ============= NAVIGATION (Flexbox) ============= */
+    nav {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      
+      /* Flexbox */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    nav ul {
+      list-style: none;
+      
+      /* Flexbox */
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    nav a {
+      color: #1e3c72;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+    }
+
+    nav a:hover {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    /* ============= MAIN CONTAINER (Grid) ============= */
+    .container {
+      max-width: 1400px;
+      margin: 40px auto;
+      padding: 0 20px;
+      
+      /* Grid Layout */
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    /* ============= SEARCH SECTION (Flexbox) ============= */
+    .search-section {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .search-section h2 {
+      color: #1e3c72;
+      margin-bottom: 20px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .search-form {
+      /* Flexbox */
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .form-group {
+      /* Flexbox */
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1 1 200px;
+      min-width: 200px;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: #1e3c72;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn-search {
+      padding: 12px 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      align-self: flex-end;
+    }
+
+    .btn-search:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+      /* ============= CARS GRID (Grid) ============= */
+      .cars-section {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .cars-section h2 {
+        color: #1e3c72;
+        margin-bottom: 30px;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .cars-grid {
+        /* CSS Grid */
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+      }
+
+      .car-card {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+        
+        /* Flexbox ichida */
+        display: flex;
+        flex-direction: column;
+      }
+
+      .car-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      }
+
+      .car-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-bottom: 3px solid #667eea;
+      }
+
+      .car-info {
+        padding: 20px;
+        
+        /* Flexbox */
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex-grow: 1;
+      }
+
+      .car-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1e3c72;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .car-details {
+        /* Flexbox */
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin: 10px 0;
+      }
+
+      .car-detail {
+        /* Flexbox */
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.9rem;
+        color: #555;
+      }
+
+      .car-price {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #667eea;
+        margin-top: auto;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .car-actions {
+        /* Flexbox */
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+    .btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+    }
+
+    .btn-rent {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-rent:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-details {
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+    }
+
+    .btn-details:hover {
+      background: #667eea;
+      color: white;
+    }
+
+    /* ============= FEATURES SECTION (Grid) ============= */
+    .features-section {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .features-section h2 {
+      color: #1e3c72;
+      margin-bottom: 30px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .features-grid {
+      /* CSS Grid */
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+    .feature-card {
+      /* Flexbox */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 15px;
+      padding: 25px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      
+      /* Flexbox */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.8rem;
+    }
+
+    .feature-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1e3c72;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .feature-text {
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* ============= FOOTER (Flexbox & Grid) ============= */
+    footer {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      padding: 40px 20px 20px;
+      margin-top: 50px;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      
+      /* Grid */
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .footer-section h3 {
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border-bottom: 2px solid #ffd700;
+      padding-bottom: 10px;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      
+      /* Flexbox */
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-section a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.8;
+      transition: all 0.3s ease;
+    }
+
+    .footer-section a:hover {
+      opacity: 1;
+      padding-left: 5px;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      opacity: 0.8;
+    }
+
+    /* ============= RESPONSIVE ============= */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      nav ul {
+        gap: 10px;
+      }
+
+      nav a {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+      }
+
+      .search-form {
+        flex-direction: column;
+      }
+
+      .form-group {
+        width: 100%;
+      }
+
+      .btn-search {
+        width: 100%;
+      }
+
+      .cars-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+    }
+    /* Sahifa yuklanganda header animatsiyasi */
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+header {
+  animation: fadeDown 1s ease forwards;
+}
+
+/* Kartalar chiqib kelish animatsiyasi */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.car-card {
+  animation: fadeUp 0.9s ease forwards;
+}
+
+/* Tugmalar bosilganda effekt */
+.btn,
+.btn-search {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn:active,
+.btn-search:active {
+  transform: scale(0.95);
+}
+
+/* Navbar linklari chiziqli animatsiya */
+nav a {
+  position: relative;
+  overflow: hidden;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: -100%;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: #667eea;
+  transition: left 0.3s ease;
+}
+
+nav a:hover::after {
+  left: 0;
+}
+
+/* Feature icon aylanish animatsiyasi */
+.feature-icon {
+  transition: transform 0.6s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: rotate(360deg) scale(1.1);
+}
+
+/* Qidirish tugmasi pulsatsiya animatsiyasi */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(102, 126, 234, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+  }
+}
+
+.btn-search {
+  animation: pulse 2s infinite;
+}
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="header-content">
+      <img src="https://img.freepik.com/premium-vector/logo-rent-rent-with-logo-rent_636399-1644.jpg?semt=ais_hybrid&w=740&q=80" alt="AutoRent Logo">
+      <h1>🚗 AutoRent</h1>
+      <p>Eng yaxshi avtomobillar ijarasi xizmati</p>
+    </div>
+  </header>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <ul>
+      <li><a href="#home">Bosh sahifa</a></li>
+      <li><a href="#cars">Avtomobillar</a></li>
+      <li><a href="#features">Xizmatlar</a></li>
+      <li><a href="#about">Biz haqimizda</a></li>
+      <li><a href="#contact">Aloqa</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+    <!-- SEARCH SECTION -->
+    <section class="search-section" id="home">
+      <h2>🔍 Avtomobil qidirish</h2>
+      <form class="search-form">
+        <div class="form-group">
+          <label for="location">Joylashuv:</label>
+          <input type="text" id="location" placeholder="Shahar yoki manzil">
+        </div>
+        <div class="form-group">
+          <label for="start-date">Boshlanish sanasi:</label>
+          <input type="date" id="start-date">
+          </div>
+        <div class="form-group">
+          <label for="end-date">Tugash sanasi:</label>
+          <input type="date" id="end-date">
+        </div>
+        <div class="form-group">
+          <label for="car-type">Avtomobil turi:</label>
+          <select id="car-type">
+            <option>Barcha turlar</option>
+            <option>Sedan</option>
+            <option>SUV</option>
+            <option>Crossover</option>
+            <option>Minivan</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-search">Qidirish</button>
+      </form>
+    </section>
+
+    <!-- CARS SECTION -->
+    <section class="cars-section" id="cars">
+      <h2>🚙 Mavjud avtomobillar</h2>
+      <div class="cars-grid">
+        <div class="car-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8RUMuYbdSHfvn-24veenMwnyO-lmA_Gb2Zg&s" alt="Chevrolet Lacetti" class="car-image">
+          <div class="car-info">
+            <h3 class="car-name">Chevrolet Lacetti</h3>
+            <div class="car-details">
+              <span class="car-detail">⚙️ Avtomat</span>
+              <span class="car-detail">👥 5 o'rin</span>
+              <span class="car-detail">⛽ Benzin</span>
+            </div>
+            <p class="car-price">350,000 so'm/kun</p>
+            <div class="car-actions">
+              <button class="btn btn-rent">Ijaraga olish</button>
+              <button class="btn btn-details">Batafsil</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM-fMlkdLyFTWdkQ8-Yj4Rfbxy01-Im0kQkA&s" alt="Chevrolet Gentra" class="car-image">
+          <div class="car-info">
+            <h3 class="car-name">Chevrolet Gentra</h3>
+            <div class="car-details">
+              <span class="car-detail">⚙️ Mexanika</span>
+              <span class="car-detail">👥 5 o'rin</span>
+              <span class="car-detail">⛽ Benzin</span>
+            </div>
+            <p class="car-price">300,000 so'm/kun</p>
+            <div class="car-actions">
+              <button class="btn btn-rent">Ijaraga olish</button>
+              <button class="btn btn-details">Batafsil</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC8H5CUWhDXICKHvKrJeg6Tm12XzBQsjZ7Gg&s" alt="Chevrolet Captiva" class="car-image">
+          <div class="car-info">
+            <h3 class="car-name">Chevrolet Captiva 4</h3>
+            <div class="car-details">
+              <span class="car-detail">⚙️ Avtomat</span>
+              <span class="car-detail">👥 7 o'rin</span>
+              <span class="car-detail">⛽ Dizel</span>
+            </div>
+            <p class="car-price">550,000 so'm/kun</p>
+            <div class="car-actions">
+              <button class="btn btn-rent">Ijaraga olish</button>
+              <button class="btn btn-details">Batafsil</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAGkceSovE1p49HJbYyUn22sSGDlTtsw2JQw&s" alt="Chevrolet Damas" class="car-image">
+          <div class="car-info">
+            <h3 class="car-name">Chevrolet Damas</h3>
+            <div class="car-details">
+              <span class="car-detail">⚙️ Mexanika</span>
+              <span class="car-detail">👥 7 o'rin</span>
+              <span class="car-detail">⛽ Benzin</span>
+            </div>
+            <p class="car-price">200,000 so'm/kun</p>
+            <div class="car-actions">
+              <button class="btn btn-rent">Ijaraga olish</button>
+              <button class="btn btn-details">Batafsil</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-card">
+          <img src="https://repost.uz/storage/uploads/0-1663507995-avto11-post-material.jpeg" alt="Chevrolet Tracker" class="car-image">
+          <div class="car-info">
+            <h3 class="car-name">Chevrolet Tracker 2</h3>
+            <div class="car-details">
+              <span class="car-detail">⚙️ Avtomat</span>
+              <span class="car-detail">👥 5 o'rin</span>
+              <span class="car-detail">⛽ Benzin</span>
+            </div>
+            <p class="car-price">450,000 so'm/kun</p>
+            <div class="car-actions">
+              <button class="btn btn-rent">Ijaraga olish</button>
+              <button class="btn btn-details">Batafsil</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmaM-idjlkorb11mxMREklDGklmGBLFe2c-w&s" alt="Chevrolet Malibu" class="car-image">
+          <div class="car-info">
+            <h3 class="car-name">Chevrolet Malibu 2 premier</h3>
+            <div class="car-details">
+              <span class="car-detail">⚙️ Avtomat</span>
+              <span class="car-detail">👥 5 o'rin</span>
+              <span class="car-detail">⛽ Benzin</span>
+            </div>
+            <p class="car-price">600,000 so'm/kun</p>
+            <div class="car-actions">
+              <button class="btn btn-rent">Ijaraga olish</button>
+              <button class="btn btn-details">Batafsil</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features-section" id="features">
+      <h2>⭐ Bizning afzalliklarimiz</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">💰</div>
+          <h3 class="feature-title">Arzon narxlar</h3>
+          <p class="feature-text">Bozordagi eng qulay narxlarda avtomobillar ijarasi</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3 class="feature-title">Xavfsizlik</h3>
+          <p class="feature-text">Barcha avtomobillar sug'urtalangan va texnik jihatdan sozlangan</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⏰</div>
+          <h3 class="feature-title">24/7 Xizmat</h3>
+          <p class="feature-text">Kunning istalgan vaqtida bizning xizmatimizdan foydalaning</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🚗</div>
+          <h3 class="feature-title">Keng tanlov</h3>
+          <p class="feature-text">Turli xil avtomobil modellari va toifalari</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3 class="feature-title">Oson buyurtma</h3>
+          <p class="feature-text">Mobil ilova orqali tez va oson buyurtma qilish</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3 class="feature-title">Sifatli xizmat</h3>
+          <p class="feature-text">Professional jamoa va ajoyib mijozlar xizmati</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>AutoRent</h3>
+        <p>Eng yaxshi avtomobil ijarasi xizmati O'zbekistonda. Biz bilan sayohat qiling!</p>
+      </div>
+
+      <div class="footer-section">
+        <h3>Tez havolalar</h3>
+        <ul>
+          <li><a href="#home">Bosh sahifa</a></li>
+          <li><a href="#cars">Avtomobillar</a></li>
+          <li><a href="#features">Xizmatlar</a></li>
+          <li><a href="#about">Biz haqimizda</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Aloqa</h3>
+        <ul>
+          <li>📞 +998 90 123 45 67</li>
+          <li>📧 info@autorent.uz</li>
+          <li>📍 Toshkent, O'zbekiston</li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Ijtimoiy tarmoqlar</h3>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Telegram</a></li>
+          <li><a href="#">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 AutoRent. Barcha huquqlar himoyalangan.</p>
+    </div>
+  </footer>
+  <script>
+ /* ====== O‘ZGARUVCHILAR ====== */
+let totalCars = 6;
+const siteName = "AutoRent";
+let selectedCar = "Tanlanmagan"; // 👈 SHU QATOR YETISHMAYOTGAN EDI
+  /* ====== SAHIFA YUKLANGANDA ====== */
+  window.onload = function () {
+    console.log(siteName + " sayti ishga tushdi");
+    console.log("Mavjud avtomobillar soni: " + totalCars);
+  };
+
+  /* ====== IJARAGA OLISH FUNKSIYASI ====== */
+ function rentCar(carName, price) {
+  selectedCar = carName; // tanlangan mashinani saqlaymiz
+
+  alert(
+    "🚗 Tanlangan avtomobil: " + carName +
+    "\n💰 Narx: " + price +
+    "\n\nAvtomobil tanlandi!"
+  );
+}
+
+  /* ====== BATAFSIL MA'LUMOT ====== */
+  function showDetails(carName) {
+    alert("📄 " + carName + " haqida batafsil ma'lumot tez orada qo‘shiladi.");
+  }
+
+  /* ====== FORM QIDIRUV FUNKSIYASI ====== */
+  const searchForm = document.querySelector(".search-form");
+
+  searchForm.addEventListener("submit", function (event) {
+    event.preventDefault(); // sahifa yangilanmasin
+
+    let location = document.getElementById("location").value;
+    let startDate = document.getElementById("start-date").value;
+    let endDate = document.getElementById("end-date").value;
+    let carType = document.getElementById("car-type").value;
+
+   alert(
+  "🔍 Qidiruv ma'lumotlari:\n\n" +
+  "📍 Joy: " + location +
+  "\n📅 Boshlanish: " + startDate +
+  "\n📅 Tugash: " + endDate +
+  "\n🚘 Avtomobil turi: " + carType +
+  "\n🚗 Tanlangan mashina: " + selectedCar
+  );
+  });
+
+  /* ====== BARCHA IJARA TUGMALARI ====== */
+  const rentButtons = document.querySelectorAll(".btn-rent");
+  const detailButtons = document.querySelectorAll(".btn-details");
+
+  rentButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      let carName = this.closest(".car-info").querySelector(".car-name").innerText;
+      let price = this.closest(".car-info").querySelector(".car-price").innerText;
+      rentCar(carName, price);
+    });
+  });
+
+  detailButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      let carName = this.closest(".car-info").querySelector(".car-name").innerText;
+      showDetails(carName);
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,1275 @@
+Azizbek, [22/12/2025 06:58]
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoRent - Professional Form Validation</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ==================== HEADER ==================== */
+    header {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      padding: 40px 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      border-bottom: 5px solid #ffd700;
+      text-align: center;
+      animation: slideDown 0.6s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    header img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 6px solid #ffd700;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    header img:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ==================== CONTAINER ==================== */
+    .container {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    /* ==================== FORM SECTION ==================== */
+    .form-section {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+      animation: fadeUp 0.8s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-section h2 {
+      color: #1e3c72;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .form-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 2px;
+    }
+
+    /* ==================== FORM LAYOUT ==================== */
+    .search-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-group label {
+      font-weight: 700;
+      color: #2c3e50;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .required {
+      color: #e74c3c;
+      font-size: 1.2rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 14px 18px;
+      border: 3px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 5px rgba(102, 126, 234, 0.1);
+      transform: translateY(-2px);
+    }
+
+
+/* ==================== VALIDATION STATES ==================== */
+    .form-group input.error,
+    .form-group select.error {
+      border-color: #e74c3c;
+      background: #ffe6e6;
+      animation: shake 0.4s;
+    }
+
+    .form-group input.success,
+    .form-group select.success {
+      border-color: #27ae60;
+      background: #e8f8f5;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+      20%, 40%, 60%, 80% { transform: translateX(8px); }
+    }
+
+    /* ==================== ERROR & SUCCESS MESSAGES ==================== */
+    .message {
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .message.show {
+      display: flex;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .error-message {
+      color: #c0392b;
+      background: #ffe6e6;
+      border-left: 4px solid #e74c3c;
+    }
+
+    .success-message {
+      color: #27ae60;
+      background: #e8f8f5;
+      border-left: 4px solid #27ae60;
+    }
+
+    /* ==================== SUBMIT BUTTON ==================== */
+    .btn-submit {
+      grid-column: 1 / -1;
+      padding: 16px 50px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5);
+    }
+
+    .btn-submit:active {
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:disabled {
+      background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ==================== STATISTICS ==================== */
+    .form-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 30px;
+      padding: 25px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 15px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #667eea;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 5px;
+    }
+
+    /* ==================== MODAL ==================== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal.show {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      animation: zoomIn 0.4s ease;
+      position: relative;
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .success-icon {
+      font-size: 4rem;
+      color: #27ae60;
+      animation: bounce 0.6s ease;
+    }
+
+
+@keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .modal-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #27ae60;
+      margin-top: 15px;
+    }
+
+    .modal-body {
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-value {
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 15px;
+    }
+
+    .btn-modal {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-close {
+      background: #95a5a6;
+      color: white;
+    }
+
+    .btn-close:hover {
+      background: #7f8c8d;
+      transform: translateY(-2px);
+    }
+
+    .btn-confirm {
+      background: linear-gradient(135deg, #27ae60, #229954);
+      color: white;
+    }
+
+    .btn-confirm:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(39, 174, 96, 0.4);
+    }
+
+    /* ==================== LOADER ==================== */
+    .loader {
+      display: none;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .loader.show {
+      display: block;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* ==================== RESPONSIVE ==================== */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      header img {
+        width: 90px;
+        height: 90px;
+      }
+
+      .form-section {
+        padding: 25px;
+      }
+
+      .search-form {
+        grid-template-columns: 1fr;
+      }
+
+      .form-stats {
+        flex-direction: column;
+      }
+
+      .stat-item {
+        min-width: 100%;
+      }
+
+      .modal-content {
+        padding: 25px;
+      }
+
+      .modal-footer {
+        flex-direction: column;
+      }
+    }
+
+    /* ==================== TOOLTIP ==================== */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: help;
+      color: #667eea;
+      font-weight: 700;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 220px;
+      background-color: #2c3e50;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 10px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -110px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+
+    .tooltip .tooltiptext::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #2c3e50 transparent transparent transparent;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <img src="https://img.freepik.com/premium-vector/logo-rent-rent-with-logo-rent_636399-1644.jpg" alt="AutoRent Logo">
+    <h1>🚗 AutoRent</h1>
+    <p>Professional Form Validation bilan</p>
+  </header>
+
+
+<!-- MAIN CONTAINER -->
+  <div class="container">
+    <section class="form-section">
+      <h2>🔍 Avtomobil Buyurtma Berish</h2>
+      
+      <form class="search-form" id="bookingForm" novalidate>
+        
+        <!-- ISM -->
+        <div class="form-group">
+          <label for="fullName">
+            To'liq Ism <span class="required">*</span>
+            <span class="tooltip">ℹ️
+              <span class="tooltiptext">Ism va familiyangizni kiriting</span>
+            </span>
+          </label>
+          <input type="text" id="fullName" placeholder="Masalan: Ahmadov Javohir" required>
+          <span class="message error-message" id="fullNameError"></span>
+          <span class="message success-message" id="fullNameSuccess">✓ To'g'ri kiritildi</span>
+        </div>
+
+        <!-- TELEFON -->
+        <div class="form-group">
+          <label for="phone">
+            Telefon Raqam <span class="required">*</span>
+            <span class="tooltip">ℹ️
+              <span class="tooltiptext">+998 formatida kiriting</span>
+            </span>
+          </label>
+          <input type="tel" id="phone" placeholder="+998 90 123 45 67" required>
+          <span class="message error-message" id="phoneError"></span>
+          <span class="message success-message" id="phoneSuccess">✓ To'g'ri raqam</span>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="form-group">
+          <label for="email">
+            Email <span class="required">*</span>
+            <span class="tooltip">ℹ️
+              <span class="tooltiptext">Haqiqiy email manzilini kiriting</span>
+            </span>
+          </label>
+          <input type="email" id="email" placeholder="example@gmail.com" required>
+          <span class="message error-message" id="emailError"></span>
+          <span class="message success-message" id="emailSuccess">✓ Email to'g'ri</span>
+        </div>
+
+        <!-- SHAHAR -->
+        <div class="form-group">
+          <label for="city">
+            Shahar <span class="required">*</span>
+          </label>
+          <select id="city" required>
+            <option value="">Shaharni tanlang...</option>
+            <option value="tashkent">Toshkent</option>
+            <option value="samarkand">Samarqand</option>
+            <option value="bukhara">Buxoro</option>
+            <option value="andijan">Andijon</option>
+            <option value="fergana">Farg'ona</option>
+            <option value="namangan">Namangan</option>
+            <option value="nukus">Nukus</option>
+          </select>
+          <span class="message error-message" id="cityError"></span>
+          <span class="message success-message" id="citySuccess">✓ Shahar tanlandi</span>
+        </div>
+
+        <!-- BOSHLANISH SANASI -->
+        <div class="form-group">
+          <label for="startDate">
+            Boshlanish Sanasi <span class="required">*</span>
+          </label>
+          <input type="date" id="startDate" required>
+          <span class="message error-message" id="startDateError"></span>
+          <span class="message success-message" id="startDateSuccess">✓ Sana to'g'ri</span>
+        </div>
+
+        <!-- TUGASH SANASI -->
+        <div class="form-group">
+          <label for="endDate">
+            Tugash Sanasi <span class="required">*</span>
+          </label>
+          <input type="date" id="endDate" required>
+          <span class="message error-message" id="endDateError"></span>
+          <span class="message success-message" id="endDateSuccess">✓ Sana to'g'ri</span>
+        </div>
+
+        <!-- AVTOMOBIL TURI -->
+        <div class="form-group">
+          <label for="carType">
+            Avtomobil Turi <span class="required">*</span>
+          </label>
+          <select id="carType" required>
+            <option value="">Turni tanlang...</option>
+            <option value="sedan">Sedan</option>
+
+
+<option value="suv">SUV</option>
+            <option value="crossover">Crossover</option>
+            <option value="minivan">Minivan</option>
+          </select>
+          <span class="message error-message" id="carTypeError"></span>
+          <span class="message success-message" id="carTypeSuccess">✓ Tur tanlandi</span>
+        </div>
+
+        <!-- HAYDOVCHILIK GUVOHNOMASI -->
+        <div class="form-group">
+          <label for="license">
+            Haydovchilik Guvohnomasi <span class="required">*</span>
+          </label>
+          <input type="text" id="license" placeholder="AA 1234567" required>
+          <span class="message error-message" id="licenseError"></span>
+          <span class="message success-message" id="licenseSuccess">✓ To'g'ri format</span>
+        </div>
+
+        <!-- SUBMIT BUTTON -->
+        <button type="submit" class="btn-submit" id="submitBtn">
+          🚀 Buyurtma Berish
+        </button>
+      </form>
+
+      <!-- LOADER -->
+      <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; color: #667eea; font-weight: 600;">Yuborilmoqda...</p>
+      </div>
+
+      <!-- STATISTICS -->
+      <div class="form-stats">
+        <div class="stat-item">
+          <span class="stat-number" id="totalFields">0</span>
+          <span class="stat-label">Jami Maydonlar</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="validFields">0</span>
+          <span class="stat-label">To'g'ri To'ldirilgan</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="progressPercent">0%</span>
+          <span class="stat-label">Tayyorlik</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div class="modal" id="successModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="success-icon">✅</div>
+        <div class="modal-title">Buyurtma Muvaffaqiyatli!</div>
+      </div>
+      
+      <div class="modal-body" id="modalBody">
+        <!-- JavaScript tomonidan to'ldiriladi -->
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-modal btn-close" onclick="closeModal()">Yopish</button>
+        <button class="btn-modal btn-confirm" onclick="confirmBooking()">Tasdiqlash</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // ELEMENTLARNI OLISH
+    // ==========================================
+    const form = document.getElementById('bookingForm');
+    const modal = document.getElementById('successModal');
+    const modalBody = document.getElementById('modalBody');
+    const loader = document.getElementById('loader');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Form maydonlari
+    const fields = {
+      fullName: document.getElementById('fullName'),
+      phone: document.getElementById('phone'),
+      email: document.getElementById('email'),
+      city: document.getElementById('city'),
+      startDate: document.getElementById('startDate'),
+      endDate: document.getElementById('endDate'),
+      carType: document.getElementById('carType'),
+      license: document.getElementById('license')
+    };
+
+    // Statistika elementlari
+    const stats = {
+      total: document.getElementById('totalFields'),
+      valid: document.getElementById('validFields'),
+      progress: document.getElementById('progressPercent')
+    };
+
+    // ==========================================
+    // REAL-TIME VALIDATION
+    // ==========================================
+    
+    // Ism
+    fields.fullName.addEventListener('input', validateFullName);
+    fields.fullName.addEventListener('blur', validateFullName);
+
+    // Telefon
+    fields.phone.addEventListener('input', function() {
+      formatPhone(this);
+      validatePhone();
+    });
+    fields.phone.addEventListener('blur', validatePhone);
+
+    // Email
+    fields.email.addEventListener('input', validateEmail);
+    fields.email.addEventListener('blur', validateEmail);
+
+    fields.city.addEventListener('change', validateCity);
+
+    // Sanalar
+    fields.startDate.addEventListener('change', function() {
+      validateStartDate();
+      validateEndDate();
+    });
+    fields.endDate.addEventListener('change', validateEndDate);
+
+    // Avtomobil turi
+    fields.carType.addEventListener('change', validateCarType);
+
+    // Guvohnoma
+    fields.license.addEventListener('input', function() {
+      formatLicense(this);
+      validateLicense();
+    });
+    fields.license.addEventListener('blur', validateLicense);
+
+    // ==========================================
+    // VALIDATION FUNCTIONS
+    // ==========================================
+
+    // 1. ISM TEKSHIRISH
+    function validateFullName() {
+      const value = fields.fullName.value.trim();
+      const error = document.getElementById('fullNameError');
+      const success = document.getElementById('fullNameSuccess');
+
+      if (value === '') {
+        showError(fields.fullName, error, '❌ Ism kiritilishi shart!');
+        hideSuccess(success);
+        return false;
+      }
+
+      if (value.length < 5) {
+        showError(fields.fullName, error, '❌ Kamida 5 ta belgi kiriting!');
+        hideSuccess(success);
+        return false;
+      }
+
+      if (!/^[a-zA-Zа-яА-ЯўЎқҚғҒҳҲ\s]+$/.test(value)) {
+        showError(fields.fullName, error, '❌ Faqat harflar kiritilishi mumkin!');
+        hideSuccess(success);
+        return false;
+      }
+
+      const words = value.split(' ').filter(word => word.length > 0);
+      if (words.length < 2) {
+        showError(fields.fullName, error, '❌ Ism va familiyani kiriting!');
+        hideSuccess(success);
+        return false;
+      }
+
+      showSuccess(fields.fullName, error, success);
+      return true;
+    }
+
+    // 2. TELEFON FORMATLASH
+    function formatPhone(input) {
+      let value = input.value.replace(/\D/g, '');
+      
+      if (!value.startsWith('998')) {
+        value = '998' + value;
+      }
+      
+      value = value.substring(0, 12);
+      
+      let formatted = '+998';
+      if (value.length > 3) formatted += ' ' + value.substring(3, 5);
+      if (value.length > 5) formatted += ' ' + value.substring(5, 8);
+      if (value.length > 8) formatted += ' ' + value.substring(8, 10);
+      if (value.length > 10) formatted += ' ' + value.substring(10, 12);
+      
+      input.value = formatted;
+    }
+
+    // 3. TELEFON TEKSHIRISH
+    function validatePhone() {
+      const value = fields.phone.value.replace(/\D/g, '');
+      const error = document.getElementById('phoneError');
+      const success = document.getElementById('phoneSuccess');
+
+      if (value === '' || value === '998') {
+        showError(fields.phone, error, '❌ Telefon raqam kiritilishi shart!');
+        hideSuccess(success);
+        return false;
+      }
+
+      if (value.length !== 12) {
+        showError(fields.phone, error, '❌ Telefon raqam to\'liq emas!');
+        hideSuccess(success);
+        return false;
+      }
+
+      if (!value.startsWith('998')) {
+        showError(fields.phone, error, '❌ +998 bilan boshlanishi kerak!');
+        hideSuccess(success);
+        return false;
+      }
+
+      const operators = ['90', '91', '93', '94', '95', '97', '98', '99', '33', '88'];
+      const operator = value.substring(3, 5);
+      
+      if (!operators.includes(operator)) {
+        showError(fields.phone, error, '❌ Noto\'g\'ri operator kodi!');
+        hideSuccess(success);
+        return false;
+      }
+
+      showSuccess(fields.phone, error, success);
+      return true;
+    }
+
+    // 4. EMAIL TEKSHIRISH
+    function validateEmail() {
+      const value = fields.email.value.trim();
+      const error = document.getElementById('emailError');
+      const success = document.getElementById('emailSuccess');
+
+      if (value === '') {
+        showError(fields.email, error, '❌ Email kiritilishi shart!');
+        hideSuccess(success);
+        return false;
+      }
+
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        showError(fields.email, error, '❌ Email formati noto\'g\'ri!');
+        hideSuccess(success);
+        return false;
+      }
+
+      const domain = value.split('@')[1];
+      const validDomains = ['gmail.com', 'mail.ru', 'yahoo.com', 'outlook.com', 'yandex.ru'];
+      
+      if (!validDomains.includes(domain)) {
+        showError(fields.email, error, '⚠️ ${domain} - noodatiy domen');
+        showSuccess(fields.email, error, success);
+        return true;
+      }
+
+      showSuccess(fields.email, error, success);
+      return true;
+    }
+
+    // 5. SHAHAR TEKSHIRISH
+    function validateCity() {
+      const value = fields.city.value;
+      const error = document.getElementById('cityError');
+      const success = document.getElementById('citySuccess');
+
+      if (value === '') {
+        showError(fields.city, error, '❌ Shaharni tanlang!');
+        hideSuccess(success);
+        return false;
+      }
+
+      showSuccess(fields.city, error, success);
+      return true;
+    }
+
+    // 6. BOSHLANISH SANASI
+    function validateStartDate() {
+      const value = fields.startDate.value;
+      const error = document.getElementById('startDateError');
+      const success = document.getElementById('startDateSuccess');
+
+      if (value === '') {
+        showError(fields.startDate, error, '❌ Boshlanish sanasini tanlang!');
+        hideSuccess(success);
+        return false;
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const selected = new Date(value);
+
+      if (selected < today) {
+        showError(fields.startDate, error, '❌ O\'tmishdagi sana tanlash mumkin emas!');
+        hideSuccess(success);
+        return false;
+      }
+
+      const maxDate = new Date();
+      maxDate.setDate(maxDate.getDate() + 90);
+      
+      if (selected > maxDate) {
+        showError(fields.startDate, error, '❌ 90 kundan keyin sana tanlash mumkin emas!');
+        hideSuccess(success);
+        return false;
+      }
+
+      showSuccess(fields.startDate, error, success);
+      return true;
+    }
+
+    // 7. TUGASH SANASI
+    function validateEndDate() {
+      const startValue = fields.startDate.value;
+      const endValue = fields.endDate.value;
+      const error = document.getElementById('endDateError');
+      const success = document.getElementById('endDateSuccess');
+
+      if (endValue === '') {
+        showError(fields.endDate, error, '❌ Tugash sanasini tanlang!');
+        hideSuccess(success);
+        return false;
+      }
+
+      if (startValue === '') {
+        showError(fields.endDate, error, '❌ Avval boshlanish sanasini tanlang!');
+        hideSuccess(success);
+        return false;
+      }
+
+      const startDate = new Date(startValue);
+      const endDate = new Date(endValue);
+
+      if (endDate <= startDate) {
+        showError(fields.endDate, error, '❌ Tugash sanasi boshlanish sanasidan keyin bo\'lishi kerak!');
+        hideSuccess(success);
+        return false;
+      }
+
+      const daysDiff = (endDate - startDate) / (1000 * 60 * 60 * 24);
+      
+      if (daysDiff > 30) {
+        showError(fields.endDate, error, '❌ Maksimal ijara muddati 30 kun!');
+        hideSuccess(success);
+        return false;
+      }
+
+      if (daysDiff < 1) {
+        showError(fields.endDate, error, '❌ Minimal ijara muddati 1 kun!');
+        hideSuccess(success);
+        return false;
+      }
+
+      showSuccess(fields.endDate, error, success);
+      return true;
+    }
+
+    // 8. AVTOMOBIL TURI
+    function validateCarType() {
+      const value = fields.carType.value;
+      const error = document.getElementById('carTypeError');
+      const success = document.getElementById('carTypeSuccess');
+
+      if (value === '') {
+        showError(fields.carType, error, '❌ Avtomobil turini tanlang!');
+        hideSuccess(success);
+        return false;
+      }
+
+      showSuccess(fields.carType, error, success);
+      return true;
+    }
+
+
+// 9. GUVOHNOMA FORMATLASH
+    function formatLicense(input) {
+      let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      
+      if (value.length > 2) {
+        value = value.substring(0, 2) + ' ' + value.substring(2);
+      }
+      
+      value = value.substring(0, 10);
+      input.value = value;
+    }
+
+    // 10. GUVOHNOMA TEKSHIRISH
+    function validateLicense() {
+      const value = fields.license.value.replace(/\s/g, '');
+      const error = document.getElementById('licenseError');
+      const success = document.getElementById('licenseSuccess');
+
+      if (value === '') {
+        showError(fields.license, error, '❌ Guvohnoma raqamini kiriting!');
+        hideSuccess(success);
+        return false;
+      }
+
+      if (value.length < 9) {
+        showError(fields.license, error, '❌ Guvohnoma to\'liq emas! (AA 1234567)');
+        hideSuccess(success);
+        return false;
+      }
+
+      const pattern = /^[A-Z]{2}[0-9]{7}$/;
+      if (!pattern.test(value)) {
+        showError(fields.license, error, '❌ Format: AA 1234567');
+        hideSuccess(success);
+        return false;
+      }
+
+      showSuccess(fields.license, error, success);
+      return true;
+    }
+
+    // ==========================================
+    // YORDAMCHI FUNKSIYALAR
+    // ==========================================
+    
+    function showError(input, errorMsg, message) {
+      input.classList.add('error');
+      input.classList.remove('success');
+      errorMsg.textContent = message;
+      errorMsg.classList.add('show');
+      updateStats();
+    }
+
+    function showSuccess(input, errorMsg, successMsg) {
+      input.classList.remove('error');
+      input.classList.add('success');
+      errorMsg.classList.remove('show');
+      successMsg.classList.add('show');
+      updateStats();
+    }
+
+    function hideSuccess(successMsg) {
+      successMsg.classList.remove('show');
+    }
+
+    // ==========================================
+    // STATISTIKA YANGILASH
+    // ==========================================
+    function updateStats() {
+      const totalFields = Object.keys(fields).length;
+      const validFields = document.querySelectorAll('.success').length;
+      const progress = Math.round((validFields / totalFields) * 100);
+
+      stats.total.textContent = totalFields;
+      stats.valid.textContent = validFields;
+      stats.progress.textContent = progress + '%';
+
+      // Rang o'zgartirish
+      if (progress < 50) {
+        stats.progress.style.color = '#e74c3c';
+      } else if (progress < 100) {
+        stats.progress.style.color = '#f39c12';
+      } else {
+        stats.progress.style.color = '#27ae60';
+      }
+    }
+
+    // ==========================================
+    // FORM SUBMIT
+    // ==========================================
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Barcha validatsiyalarni tekshirish
+      const validations = [
+        validateFullName(),
+        validatePhone(),
+        validateEmail(),
+        validateCity(),
+        validateStartDate(),
+        validateEndDate(),
+        validateCarType(),
+        validateLicense()
+      ];
+
+      const allValid = validations.every(v => v === true);
+
+      if (allValid) {
+        // Loader ko'rsatish
+        loader.classList.add('show');
+        submitBtn.disabled = true;
+        form.style.opacity = '0.5';
+
+        // 2 soniya kutish (server so'rovi simulatsiyasi)
+        setTimeout(() => {
+          loader.classList.remove('show');
+          submitBtn.disabled = false;
+          form.style.opacity = '1';
+          showSuccessModal();
+        }, 2000);
+      } else {
+        // Birinchi xatoga scroll
+        const firstError = document.querySelector('.error');
+        if (firstError) {
+          firstError.focus();
+          firstError.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+        }
+      }
+    });
+
+
+// ==========================================
+    // MODAL FUNKSIYALARI
+   function showSuccessModal() {
+  const fullName = fields.fullName.value;
+  const phone = fields.phone.value;
+  const email = fields.email.value;
+  const city = fields.city.options[fields.city.selectedIndex].text;
+  const startDate = new Date(fields.startDate.value).toLocaleDateString('uz-UZ');
+  const endDate = new Date(fields.endDate.value).toLocaleDateString('uz-UZ');
+  const carType = fields.carType.options[fields.carType.selectedIndex].text;
+  const license = fields.license.value;
+
+  const start = new Date(fields.startDate.value);
+  const end = new Date(fields.endDate.value);
+  const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+  const estimatedPrice = days * 400000;
+
+  modalBody.innerHTML = `
+    <div class="info-row">
+      <span class="info-label">👤 To'liq Ism:</span>
+      <span class="info-value">${fullName}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">📞 Telefon:</span>
+      <span class="info-value">${phone}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">📧 Email:</span>
+      <span class="info-value">${email}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">📍 Shahar:</span>
+      <span class="info-value">${city}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">📅 Boshlanish:</span>
+      <span class="info-value">${startDate}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">📅 Tugash:</span>
+      <span class="info-value">${endDate}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">🚗 Avtomobil:</span>
+      <span class="info-value">${carType}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">🪪 Guvohnoma:</span>
+      <span class="info-value">${license}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">⏱️ Muddat:</span>
+      <span class="info-value">${days} kun</span>
+    </div>
+    <div class="info-row" style="background:#fff3cd;padding:15px;border-radius:10px;">
+      <span class="info-label" style="color:#856404;">💰 Taxminiy Narx:</span>
+      <span class="info-value" style="color:#856404;font-size:1.3rem;">
+        ${estimatedPrice.toLocaleString()} so'm
+      </span>
+    </div>
+  `;
+
+  modal.classList.add('show');
+}
+
+
+    function closeModal() {
+      modal.classList.remove('show');
+      
+      // Formani tozalash
+      form.reset();
+      document.querySelectorAll('.success, .error').forEach(el => {
+        el.classList.remove('success', 'error');
+      });
+      document.querySelectorAll('.message.show').forEach(el => {
+        el.classList.remove('show');
+      });
+      
+      updateStats();
+    }
+
+    function confirmBooking() {
+      alert('✅ Buyurtma tasdiqlandi! Tez orada operatorlarimiz siz bilan bog\'lanadi.');
+      closeModal();
+    }
+
+    // Modal tashqarisiga bosilganda
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // ESC tugmasi
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('show')) {
+        closeModal();
+      }
+    });
+
+    // ==========================================
+    // SAHIFA YUKLANGANDA
+    // ==========================================
+    window.addEventListener('load', function() {
+      updateStats();
+      
+      // Bugungi sanani minimal qiymat qilib o'rnatish
+      const today = new Date().toISOString().split('T')[0];
+      fields.startDate.setAttribute('min', today);
+      fields.endDate.setAttribute('min', today);
+    });
+  </script>
+</body>
+</html>

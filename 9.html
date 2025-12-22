@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoRent - Avtomobil Ijarasi</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ============= HEADER (Flexbox) ============= */
+    header {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      padding: 30px 15px;
+      border-bottom: 5px solid #ffd700;
+      display: flex; /* */
+      flex-direction: column; /* */
+      align-items: center; /* */
+      justify-content: center; /* */
+      gap: 15px; /* */
+    }
+
+    .header-content {
+      display: flex; /* */
+      flex-direction: column; /* */
+      align-items: center; /* */
+      gap: 15px; /* */
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    header img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 5px solid #ffd700;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    header h1 {
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 2.5rem; /* */
+    }
+
+    /* ============= NAVIGATION (Flexbox) ============= */
+    nav {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex; /* */
+      justify-content: center; /* */
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex; /* */
+      flex-wrap: wrap; /* */
+      justify-content: center;
+      gap: 20px; /* */
+    }
+
+    nav a {
+      color: #1e3c72;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 25px;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    /* ============= MAIN CONTAINER (Grid) ============= */
+    .container {
+      max-width: 1400px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid; /* */
+      grid-template-columns: 1fr; /* */
+      gap: 30px; /* */
+    }
+
+    /* ============= SEARCH SECTION (Flexbox) ============= */
+    .search-section {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .search-form {
+      display: flex; /* */
+      flex-wrap: wrap; /* */
+      gap: 15px; /* */
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .form-group {
+      display: flex; /* */
+      flex-direction: column; /* */
+      gap: 8px; /* */
+      flex: 1 1 200px; /* */
+    }
+
+    .form-group input, .form-group select {
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+    }
+
+    .btn-search {
+      padding: 12px 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* ============= CARS GRID (Grid) ============= */
+    .cars-section {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    
+    .cars-grid {
+      display: grid; /* */
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* */
+      gap: 25px; /* */
+    }
+
+    .car-card {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 15px;
+      overflow: hidden;
+      display: flex; /* */
+      flex-direction: column; /* */
+      transition: 0.3s;
+    }
+
+    .car-card:hover {
+      transform: translateY(-10px); /* */
+    }
+
+    .car-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .car-info {
+      padding: 20px;
+      display: flex; /* */
+      flex-direction: column; /* */
+      gap: 10px; /* */
+      flex-grow: 1; /* */
+    }
+
+    .car-price {
+      font-size: 1.8rem; /* */
+      font-weight: 700;
+      color: #667eea;
+      margin-top: auto; /* */
+    }
+
+    .car-actions {
+      display: flex; /* */
+      gap: 10px; /* */
+      margin-top: 15px; /* */
+    }
+
+    .btn {
+      flex: 1; /* */
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .btn-rent { background: #764ba2; color: white; }
+
+    /* ============= FEATURES SECTION (Grid) ============= */
+    .features-grid {
+      display: grid; /* */
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* */
+      gap: 25px; /* */
+    }
+
+    .feature-card {
+      display: flex; /* */
+      flex-direction: column; /* */
+      align-items: center; /* */
+      text-align: center; /* */
+      padding: 25px;
+      background: #f5f7fa;
+      border-radius: 15px;
+    }
+
+    /* ============= FOOTER (Grid) ============= */
+    footer {
+      background: #1e3c72;
+      color: white;
+      padding: 40px 20px;
+      margin-top: 50px;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid; /* */
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* */
+      gap: 30px; /* */
+    }
+
+    /* ============================================================
+       RESPONSIVE DESIGN (MEDIA QUERIES) - MAVZU DOIRASIDA QO'SHILDI
+       ============================================================ */
+    
+    /* 1. Planshetlar uchun (max-width: 992px) */
+    @media (max-width: 992px) {
+      header h1 { font-size: 2rem; }
+      .container { margin: 20px auto; }
+    }
+
+    /* 2. O'rta hajmdagi ekranlar (max-width: 768px) */
+    @media (max-width: 768px) {
+      header h1 { font-size: 1.8rem; } /* */
+      
+      nav ul { gap: 10px; } /* */
+      nav a { padding: 8px 15px; font-size: 0.8rem; } /* */
+
+      .search-form { 
+        flex-direction: column; /* Flex yo'nalishini o'zgartirish */
+        align-items: stretch; 
+      }
+      
+      .form-group { width: 100%; } /* */
+      .btn-search { width: 100%; } /* */
+
+      .cars-grid { grid-template-columns: 1fr; } /* Gridni 1 ustunga o'tkazish */
+      .features-grid { grid-template-columns: 1fr; } /* */
+      .footer-content { grid-template-columns: 1fr; } /* */
+    }
+
+    /* 3. Kichik mobil telefonlar uchun (max-width: 480px) */
+    @media (max-width: 480px) {
+      header { padding: 20px 10px; }
+      header h1 { font-size: 1.5rem; letter-spacing: 1px; }
+      header img { width: 70px; height: 70px; }
+      
+      .search-section { padding: 15px; }
+      .car-image { height: 160px; }
+      .car-name { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <img src="https://img.freepik.com/premium-vector/logo-rent-rent-with-logo-rent_636399-1644.jpg?w=100" alt="Logo">
+      <h1>🚗 AutoRent</h1>
+      <p>Eng yaxshi avtomobillar ijarasi xizmati</p>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#home">Bosh sahifa</a></li>
+      <li><a href="#cars">Avtomobillar</a></li>
+      <li><a href="#features">Xizmatlar</a></li>
+      <li><a href="#contact">Aloqa</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <section class="search-section" id="home">
+      <h2>🔍 Avtomobil qidirish</h2>
+      <form class="search-form">
+        <div class="form-group">
+          <label>Joylashuv:</label>
+          <input type="text" placeholder="Shahar yoki manzil">
+        </div>
+        <div class="form-group">
+          <label>Boshlanish sanasi:</label>
+          <input type="date">
+        </div>
+        <div class="form-group">
+          <label>Avtomobil turi:</label>
+          <select>
+            <option>Sedan</option>
+            <option>SUV</option>
+            <option>Minivan</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-search">Qidirish</button>
+      </form>
+    </section>
+
+    <section class="cars-section" id="cars">
+      <h2 style="text-align: center; margin-bottom: 20px;">🚙 Mavjud avtomobillar</h2>
+      <div class="cars-grid">
+        <div class="car-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8RUMuYbdSHfvn-24veenMwnyO-lmA_Gb2Zg&s" alt="Lacetti" class="car-image">
+          <div class="car-info">
+            <h3 class="car-name">Chevrolet Lacetti</h3>
+            <div style="font-size: 0.9rem; color: #555;">⚙️ Avtomat | 👥 5 o'rin | ⛽ Benzin</div>
+            <p class="car-price">350,000 so'm/kun</p>
+            <div class="car-actions"><button class="btn btn-rent">Ijaraga olish</button></div>
+          </div>
+        </div>
+
+        <div class="car-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC8H5CUWhDXICKHvKrJeg6Tm12XzBQsjZ7Gg&s" alt="Captiva" class="car-image">
+          <div class="car-info">
+            <h3 class="car-name">Chevrolet Captiva 4</h3>
+            <div style="font-size: 0.9rem; color: #555;">⚙️ Avtomat | 👥 7 o'rin | ⛽ Dizel</div>
+            <p class="car-price">550,000 so'm/kun</p>
+            <div class="car-actions"><button class="btn btn-rent">Ijaraga olish</button></div>
+          </div>
+        </div>
+
+        <div class="car-card">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAGkceSovE1p49HJbYyUn22sSGDlTtsw2JQw&s" alt="Damas" class="car-image">
+          <div class="car-info">
+            <h3 class="car-name">Chevrolet Damas</h3>
+            <div style="font-size: 0.9rem; color: #555;">⚙️ Mexanika | 👥 7 o'rin | ⛽ Benzin</div>
+            <p class="car-price">200,000 so'm/kun</p>
+            <div class="car-actions"><button class="btn btn-rent">Ijaraga olish</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features-section" id="features">
+      <h2 style="text-align: center; margin-bottom: 20px;">⭐ Afzalliklarimiz</h2>
+      <div class="features-grid">
+        <div class="feature-card"><div>💰</div><h3>Arzon narxlar</h3><p>Bozordagi eng qulay narxlar</p></div>
+        <div class="feature-card"><div>🔒</div><h3>Xavfsizlik</h3><p>Barcha moshinalar sug'urtalangan</p></div>
+        <div class="feature-card"><div>⏰</div><h3>24/7 Xizmat</h3><p>Kunning istalgan vaqtida aloqadamiz</p></div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section"><h3>AutoRent</h3><p>Eng yaxshi avtomobil ijarasi xizmati O'zbekistonda.</p></div>
+      <div class="footer-section"><h3>Aloqa</h3><p>📞 +998 90 123 45 67<br>📍 Toshkent shahri</p></div>
+    </div>
+    <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); margin-top: 20px;">
+      <p>&copy; 2024 AutoRent. Barcha huquqlar himoyalangan.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
